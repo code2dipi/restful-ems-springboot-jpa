@@ -21,61 +21,63 @@ import com.dipi.springwithreact.springbackend.exception.ResourceNotFoundExceptio
 import com.dipi.springwithreact.springbackend.model.Employee;
 import com.dipi.springwithreact.springbackend.repository.EmployeeRepository;
 
-@CrossOrigin(origins="http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/api/v1")// typical endpoint url
+@RequestMapping("/api/v1") // typical endpoint url
 public class EmployeeController {
 	@Autowired // to inject this repository by spring container
 	private EmployeeRepository employeeRepository;
-	
 
-	
 	@GetMapping("/employees")
-	public List<Employee> getAllEmployees(){
+	public List<Employee> getAllEmployees() {
 		return employeeRepository.findAll();
 	}
-	
-   
+
 	@PostMapping("/employees")
-	//this rest api returns employee object as json
+	// this rest api returns employee object as json
 	public Employee createEmployee(@RequestBody Employee employee) {
-		   return employeeRepository.save(employee);
+		return employeeRepository.save(employee);
 	}
 
 	@GetMapping("/employees/{id}")
 	public ResponseEntity<Employee> getEmployee(@PathVariable long id) {
-		Employee employee=employeeRepository.findById(id)
-				.orElseThrow(()->
-		new ResourceNotFoundException("Employee is not exist ...with Id:"+id)
-				);
+		Employee employee = employeeRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Employee is not exist ...with Id:" + id));
+		/**
+		 * In RestTemplate, this class is returned by getForEntity() and exchange():
+		 * ResponseEntity<String> entity = template.getForEntity("https://example.com",
+		 * String.class); String body = entity.getBody(); MediaType contentType =
+		 * entity.getHeaders().getContentType(); HttpStatus statusCode =
+		 * entity.getStatusCode();
+		 */
+           
 		return ResponseEntity.ok(employee);
 	}
 
 	@PutMapping("/employees/{id}")
-	public ResponseEntity<Employee> updateEmployee(@PathVariable Long id,@RequestBody Employee employeeDetails ){
-		Employee employee=employeeRepository.findById(id)
-				.orElseThrow(()->
-		new ResourceNotFoundException("Employee is not exist ...with Id:"+id));
-		
+	public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee employeeDetails) {
+		Employee employee = employeeRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Employee is not exist ...with Id:" + id));
+
 		employee.setFirstName(employeeDetails.getFirstName());
-		employee.setFirstName(employeeDetails.getLastName());
-		employee.setFirstName(employeeDetails.getEmailId());
-		Employee updatedEmployee=employeeRepository.save(employee);
-		
+		employee.setLastName(employeeDetails.getLastName());
+		employee.setEmailId(employeeDetails.getEmailId());
+		Employee updatedEmployee = employeeRepository.save(employee);
+
 		return ResponseEntity.ok(updatedEmployee);
-		 
+
 	}
-	@DeleteMapping("/employees{id}")
-	public ResponseEntity<Map<String,Boolean>>deleteEmployee(@PathVariable Long id){
-		Employee employee=employeeRepository.findById(id)
-				.orElseThrow(()->
-		new ResourceNotFoundException("Employee is not exist ...with Id:"+id));
+
+	@DeleteMapping("/employees/{id}")
+	public ResponseEntity<Map<String, Boolean>> deleteEmployee(@PathVariable Long id) {
+		Employee employee = employeeRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Employee is not exist ...with Id:" + id));
 		employeeRepository.delete(employee);
-		Map<String,Boolean> response=new HashMap<>();
-		response.put("Deleted",Boolean.TRUE);
+		Map<String, Boolean> response = new HashMap<>();
+		System.out.println(response);
+		response.put("Deleted", Boolean.TRUE);
 		return ResponseEntity.ok(response);
-		
+
 	}
-	
-	
+
 }
