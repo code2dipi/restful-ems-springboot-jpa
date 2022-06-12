@@ -1,68 +1,80 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Tech assignment - Network speed 
+- Write a program that solves the most suitable (with highest non-zero speed) network station for a device at a  given point (x, y).
 
-## Available Scripts
+- This problem can be solved in 2-dimensional space. Network stations have reach and speed
+that depends on the distance to the station.
 
-In the project directory, you can run:
+A network station’s speed can be calculated as follows:
+  speed = (reach - device's distance from network station)^2
+  if distance > reach, speed = 0
 
-### `npm start`
+Network stations are located at points (x, y) and have reach r[x,y,r]:
+  
+  [
+  [0,  0,  9],
+  [20, 20, 6],
+  [10, 0, 12],
+  [5, 5,  13],
+  [99, 25, 2],
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+]
+Print out the most suitable network station and the network speed from devices (x, y):
+(0, 0), (100, 100), (15, 10), (18, 18), (13, 13) and (25, 99)
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+Program should output the solution to these two cases:
+● Best station found, output station location and speed
+● No station within reach found, output error message
 
-### `npm test`
+It can be in the form of:
+  “Best network station for point x,y is x,y with speed z”
+  “No network station within reach for point x,y”
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# Solutions
+- The solution will be found on network.js file.
+# How to run the solution
+- Before you run this programe, Node js should be installed on your machine(Other option: see below)
+- Open your favourite editor and then open folder nord-cloud-assignment-dn
+- Open terminal and select root folder and type command :
 
-### `npm run build`
+ # node network.js
+- Then program will be executed and you will see the following results on terminal:
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Best Network station for point: (0,0) is (5,5) with speed: 35.15
+No network station within reach for point : (100,100)
+Best Network station for point: (15,10) is (5,5) with speed: 3.31
+Best Network station for point: (18,18) is (20,20) with speed: 10.06
+No network station within reach for point : (25,99)
+Best Network station for point: (13,13) is (5,5) with speed: 2.84
+No network station within reach for point : (25,99)
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+# Alternativly, you can use online editor tool https://codepen.io/pen/ and copy network.js code and page into it where you will see exactly the same results.       
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# How to test this solution.
+-The solution can be tested using Jest(JavaScript Testing Framework) which is pretty simple and almost need no configuration at all.
 
-### `npm run eject`
+# Instruction: 
+-Open nord-cloud-assignment-dn folder then on terminal type command :
+ # npm install -- save-dev jest
+ -The Jest Testing framework library will be installed on your machine. Now run the test using command :
+ #  npm test
+ 
+ After running test command you will see the following output: 
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+  PASS  ./network.test.js
+  findMostSuitableStation for point(0,0)
+    √ if point(0,0) is given it should return best netwok station (5,5) with highest speed 35.15 (3 ms)                     
+  findMostSuitableStation for point(13,13)                                                                                  
+    √ if point(13,13) is given it should return netwok station (5,5) with lowest speed 2.84 (1 ms)                          
+  findMostSuitableStation for point(25,99)                                                                                  
+    √ if point(25,99) is given it should return no netwok station(undefined) (1 ms)                                         
+  getDistance between station and device                                                                                    
+    √ Distance between two postion(x1,y1) and (x2,y2)                                                                       
+  getNetworkSpeed if distance < reach                                                                                       
+    √ Distance less than reach should print non zero Network speed                                                          
+  getNetworkSpeed if distance > reach                                                                                       
+    √ Distance greater than reach should print  zero(0) network speed (1 ms)                                                
+                                                                                                                            
+Test Suites: 1 passed, 1 total
+Tests:       6 passed, 6 total
+Snapshots:   0 total
+Time:        0.823 s, estimated 1 s
